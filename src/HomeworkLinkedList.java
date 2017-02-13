@@ -1,38 +1,40 @@
-/**
- * Created by hgoscenski on 2/8/17.
- */
-
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.LinkedList;
 
-public class HomeworkList {
+/**
+ * Created by hgoscenski on 2/12/17.
+ */
+public class HomeworkLinkedList {
+    private LinkedList<Homework> homeworkHolder;
 
-    private ArrayList<Homework> homeworkHolder;
-
-    /**
-     * a constructor to build my homeowrk list that finally instantiates the ArrayList
-     */
-    public HomeworkList(){
-        homeworkHolder = new ArrayList<>();
+    public HomeworkLinkedList(){
+        homeworkHolder = new LinkedList<>();
     }
 
-    /**
-     * @param newAssign adds this assignment to the end of the arraylist
-     */
     public void addAssign(Homework newAssign){
         homeworkHolder.add(newAssign);
     }
 
-    /**
-     * @param badAssign will remove the assignment references in badassign
-     */
-    public void removeAssign(Homework badAssign){
+    //More beautiful overloading
+
+    public void removeAssign(Homework badAssign) {
         homeworkHolder.remove(badAssign);
     }
 
-    /**
-     * @return Makes the toString for the HomeworkList Class
-     */
+    public void removeAssign(String name){
+        Iterator<Homework> it = homeworkHolder.iterator();
+        while(it.hasNext()){
+            Homework temp = it.next();
+            if(temp.getAssignID().equalsIgnoreCase(name)){
+                homeworkHolder.remove(temp);
+                System.out.print(name + " removed.");
+            }
+        }
+    }
+
     public String toString() {
         Iterator<Homework> it = homeworkHolder.iterator();
         StringBuilder sb = new StringBuilder();
@@ -43,7 +45,7 @@ public class HomeworkList {
     }
 
     /**
-     * @return returns a string of the homework assignments due at the same time
+     * @return returns as a string the ordered assignments
      */
     public String orderByDate(){
         homeworkHolder.sort(Comparator.comparing(Homework::getAssignDate));
@@ -56,7 +58,7 @@ public class HomeworkList {
     }
 
     /**
-     * @return returns an arraylist of the homework assignments due on the same, early day.
+     * @return returns the arraylist of the
      */
     public ArrayList<Homework> earliestDueDate(){
         homeworkHolder.sort(Comparator.comparing(Homework::getAssignDate));
@@ -70,6 +72,10 @@ public class HomeworkList {
             }
         }return homeArrayReturn;
     }
+
+
+
+
 
 
 }
